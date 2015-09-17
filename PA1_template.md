@@ -1,11 +1,3 @@
----
-title: "Peer Assessment 1"
-author: "Jon Mattes"
-date: "September 16, 2015"
-output: html_document
----
-\  
-
 **1. Load in necessary packages**
 
 ```r
@@ -13,7 +5,6 @@ library(dplyr)
 library(ggplot2)
 library(lubridate)
 ```
-\  
 
 **2. Loading and preprocessing the data**
 
@@ -24,11 +15,9 @@ raw_data <- read.csv("activity.csv")
 #remove NAs from dataset
 clean_data <- raw_data[!(is.na(raw_data$steps)),]
 ```
-\  
 
 
 **3. What is the mean total number of steps taken per day?** 
-\  
 
 This step creates a histogram of the number of steps taken per day
 
@@ -44,7 +33,6 @@ qplot(daysteps$steps, binwidth = 1000, xlab = "Steps Taken in a Day",
 ```
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
-\  
 
 This step calculates the mean and median of the total number of steps taken per day
 
@@ -53,15 +41,12 @@ options(scipen = 999)
 step_mean <- round(mean(daysteps$steps), 2)
 step_med <- median(daysteps$steps)
 ```
-\  
 
-*The mean number of steps taken per day was **10766.19**.*  
-*The median number of steps taken per day was **10765**.*  
-\  
+*The mean number of steps taken per day was 10766.19.*  
+*The median number of steps taken per day was 10765.*  
 
 
 **4. What is the average daily activity pattern?**
-\  
 
 This step creates a plot of the average number of steps taken during a time interval across all days
 
@@ -76,7 +61,6 @@ qplot(interval, avgSteps, data = timesteps, geom = "line")
 ```
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
-\  
 
 This step calculates the interval, on average across all the days in the dataset, that contains the maximum number of steps
 
@@ -84,14 +68,11 @@ This step calculates the interval, on average across all the days in the dataset
 maxsteps <- max(timesteps$avgSteps)
 maxsteps_time <- timesteps[timesteps$avgSteps == maxsteps,1]
 ```
-\  
 
-*The 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps is **835** with **206.17 steps**.*  
-\  
+*The 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps is 835 with 206.17 steps.*  
 
 
 **5. Inputing missing values**
-\  
 
 This step calculates the total number of missing values in the dataset
 
@@ -99,10 +80,8 @@ This step calculates the total number of missing values in the dataset
 na_table <- filter(raw_data, is.na(steps))
 na_count <- nrow(na_table)
 ```
-\  
 
-*There are **2304** missing values in the dataset.*  
-\  
+*There are 2304 missing values in the dataset.*  
 
 This step fills in the missing data in the dataset with the mean for that time interval to create a rebuilt dataset.
 
@@ -112,7 +91,6 @@ nanew_table <- select(nanew_table, avgSteps, date, interval)
 names(nanew_table) <- c("steps", "date", "interval")
 rebuilt_data <- rbind(nanew_table, clean_data)
 ```
-\  
 
 This step creates a histogram of the number of steps taken each day using the rebuilt dataset.
 
@@ -128,7 +106,6 @@ qplot(redaysteps$steps, binwidth = 1000, xlab = "Steps Taken in a Day",
 ```
 
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
-\  
 
 This step calculates the mean and median of the total number of steps taken per day using the rebuilt dataset.
 
@@ -138,18 +115,14 @@ options(scipen = 999)
 restep_mean <- round(mean(redaysteps$steps), 2)
 restep_med <- round(median(redaysteps$steps), 2)
 ```
-\  
 
-*The mean number of steps taken per day using the rebuilt data was **10766.19**.*
-*The median number of steps taken per day using the rebuilt data was **10766.19**.*
-\  
+*The mean number of steps taken per day using the rebuilt data was 10766.19.*
+*The median number of steps taken per day using the rebuilt data was 10766.19.*
 
 *The histogram and median differ from the estimates in the first part of the assignment (using the clean data).  The mean stayed the same.  Inputing estimates for the missing data caused the histogram frequencies to move toward the median and the median to shift up slightly to equal the mean.*  
-\  
 
 
 **6. Are there differences in activity patterns between weekdays and weekends?**  
-\  
 
 This step adds a new factor variable to the rebuilt dataset that indicates whether the record was during a weekday or weekend and then creates a plot of the average number of steps taken during a time interval across all days
 
