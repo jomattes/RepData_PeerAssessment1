@@ -137,23 +137,7 @@ rebuilt_data <- mutate(rebuilt_data, weekday = weekdays(date),
 retime_data <- group_by(rebuilt_data, interval, isWeekend)
 retimesteps <- summarize(retime_data, mean(steps), unique = n_distinct(isWeekend))
 names(retimesteps) <- c("interval", "isWeekend", "steps", "unique")
-head(retimesteps)
-```
 
-```
-## Source: local data frame [6 x 4]
-## Groups: interval
-## 
-##   interval isWeekend      steps unique
-## 1        0   weekday 2.25115304      1
-## 2        0   weekend 0.21462264      1
-## 3        5   weekday 0.44528302      1
-## 4        5   weekend 0.04245283      1
-## 5       10   weekday 0.17316562      1
-## 6       10   weekend 0.01650943      1
-```
-
-```r
 #creates the time series plot of interval vs avgStep
 qplot(interval, steps, data = retimesteps, geom = "line", facets = isWeekend ~ .)
 ```
